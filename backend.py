@@ -7,25 +7,27 @@ from fastapi.middleware.cors import CORSMiddleware  # To allow cross-origin requ
 from fastapi.staticfiles import StaticFiles  # To serve static files like MIDI downloads
 from pydantic import BaseModel  # For request body validation
 
+# Initialize FastAPI app
 app = FastAPI()
 
-# CORS configuration
+# Enable CORS (Cross-Origin Resource Sharing) to allow frontend to interact with backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["*"],  # Allow all origins (can be restricted to specific domains)
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Serve static files
+# Mount the current directory to serve static files (used for serving generated MIDI files)
 app.mount("/static", StaticFiles(directory="."), name="static")
 
-# Load model
+# Load the pre-trained music generation model
 model = tf.keras.models.load_model("music_gen_model.keras")
 
+# Define the request body structure for /generate endpoint
 class MoodRequest(BaseModel):
-    mood: str  # "happy", "sad", "angry", "calm"
-    length: int = 100
+    mood: str  # Expected values: "happy", "sad", "angry", "calm"
+    length: int = 100  # Number of notes to generate (default = 100)
 
 @app.post("/generate")
 def generate_music(request: MoodRequest):
