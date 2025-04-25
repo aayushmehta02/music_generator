@@ -1,12 +1,11 @@
 import os
-
-import music21  # type: ignore
+import music21  # Music21 library for MIDI file creation and manipulation
 import numpy as np
-import tensorflow as tf  # type: ignore
-from fastapi import FastAPI, HTTPException  # type: ignore
-from fastapi.middleware.cors import CORSMiddleware  # type: ignore
-from fastapi.staticfiles import StaticFiles  # type: ignore
-from pydantic import BaseModel
+import tensorflow as tf  # TensorFlow for model loading and prediction
+from fastapi import FastAPI, HTTPException  # FastAPI for building the web API
+from fastapi.middleware.cors import CORSMiddleware  # To allow cross-origin requests
+from fastapi.staticfiles import StaticFiles  # To serve static files like MIDI downloads
+from pydantic import BaseModel  # For request body validation
 
 app = FastAPI()
 
